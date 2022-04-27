@@ -18,9 +18,12 @@ public class ReadAndGeneratePickupNumber {
 
     public void read (String fileName) {
 
-        String path = "C:\\Users\\tynek\\Desktop\\Projects\\my-project\\src\\main\\resources\\" + fileName;
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(fileName).getFile());
+        Path path = Paths.get(file.getPath());
+
         try {
-            CSVReader reader = new CSVReaderBuilder(new FileReader(path)).build();
+            CSVReader reader = new CSVReaderBuilder(new FileReader(String.valueOf(path))).build();
 
             List<DriverAndLicencePlate> driverAndLicencePlates = reader.readAll().stream().map(data -> {
                 DriverAndLicencePlate driverAndLicencePlate = new DriverAndLicencePlate();
