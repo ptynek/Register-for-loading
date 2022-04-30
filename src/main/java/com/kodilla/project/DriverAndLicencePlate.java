@@ -8,19 +8,12 @@ public class DriverAndLicencePlate {
     private String nameAndSurname;
     @CsvBindByPosition(position = 1)
     private String licencePlate;
-    @CsvBindByPosition(position =  2)
-    private String pickupNumber;
 
     public DriverAndLicencePlate(String nameAndSurname, String licencePlate){
         this.nameAndSurname = nameAndSurname;
         this.licencePlate = licencePlate;
     }
 
-    public DriverAndLicencePlate(String nameAndSurname, String licencePlate, String pickupNumber) {
-        this.nameAndSurname = nameAndSurname;
-        this.licencePlate = licencePlate;
-        this.pickupNumber = pickupNumber;
-    }
 
     public DriverAndLicencePlate(){}
 
@@ -38,14 +31,6 @@ public class DriverAndLicencePlate {
 
     public void setLicencePlate(String licencePlate) {
         this.licencePlate = licencePlate;
-    }
-
-    public String getPickupNumber() {
-        return pickupNumber;
-    }
-
-    public void setPickupNumber(String pickupNumber) {
-        this.pickupNumber = pickupNumber;
     }
 
     @Override

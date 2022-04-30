@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class ReadAndGeneratePickupNumber {
 
-    public void readFile (String fileName) {
+    public Set<DriverAndLicencePlate> readFile (String fileName) {
 
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(fileName).getFile());
@@ -23,19 +23,17 @@ public class ReadAndGeneratePickupNumber {
         try {
             CSVReader reader = new CSVReaderBuilder(new FileReader(String.valueOf(path))).build();
 
-            List<DriverAndLicencePlate> driverAndLicencePlates = reader.readAll().stream().map(data -> {
+            return reader.readAll().stream().map(data -> {
                 DriverAndLicencePlate driverAndLicencePlate = new DriverAndLicencePlate();
                 driverAndLicencePlate.setNameAndSurname(data[0]);
                 driverAndLicencePlate.setLicencePlate(data[1]);
                 return driverAndLicencePlate;
-            }).collect(Collectors.toList());
-
-            driverAndLicencePlates.forEach(System.out::println);
+            }).collect(Collectors.toSet());
 
         } catch (Exception e){
             System.out.println(e);
         }
-
+        return new HashSet<>();
     }
 
     public String pickUpNumber() {
