@@ -30,13 +30,6 @@ public class LogInByDriver {
         return licencePlate;
     }
 
-    public void checkLength(){
-        if (pickUpNumber.length() < 6 ){
-            System.out.println("Numer załadunku jest za krótki.");
-        } else if(pickUpNumber.length() > 6) {
-            System.out.println("Numer załadunkowy jest za długi.");
-        }
-    }
 
     @Override
     public String toString() {
