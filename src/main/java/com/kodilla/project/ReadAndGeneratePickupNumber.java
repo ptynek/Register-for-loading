@@ -2,12 +2,10 @@ package com.kodilla.project;
 
 
 import com.opencsv.*;
-import com.opencsv.bean.CsvToBeanBuilder;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -16,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class ReadAndGeneratePickupNumber {
 
-    public void read (String fileName) {
+    public void readFile (String fileName) {
 
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(fileName).getFile());
@@ -40,12 +38,15 @@ public class ReadAndGeneratePickupNumber {
 
     }
 
-    public static void main(String[] args) throws Exception  {
+    public String pickUpNumber() {
 
-        ReadAndGeneratePickupNumber readAndGeneratePickupNumber = new ReadAndGeneratePickupNumber();
+        String pickUpNumber = "";
 
-        readAndGeneratePickupNumber.read("drivers.csv");
+        pickUpNumber = RandomStringUtils.randomAlphanumeric(6);
 
+        return pickUpNumber;
     }
+
+
 
 }
