@@ -41,6 +41,7 @@ public class ReadAndGeneratePickupNumber {
         String pickUpNumber = "";
 
         pickUpNumber = RandomStringUtils.randomAlphanumeric(6);
+        pickUpNumber.toUpperCase();
 
         return pickUpNumber;
     }

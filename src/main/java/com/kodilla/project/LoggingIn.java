@@ -1,8 +1,6 @@
 package com.kodilla.project;
 
-import javax.sound.midi.Soundbank;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class LoggingIn {
 
@@ -42,12 +40,31 @@ public class LoggingIn {
 
     }
 
+    public Map<String, DriverAndLicencePlate> pickUpNumberLicencePlateAndDriversMap(String fileName){
+
+        ReadAndGeneratePickupNumber readAndGeneratePickupNumber = new ReadAndGeneratePickupNumber();
+        Set<DriverAndLicencePlate> fileWithDataSet = readAndGeneratePickupNumber.readFile(fileName);
+
+        Map<String, DriverAndLicencePlate> resultMap = new HashMap<>();
+
+        Iterator<DriverAndLicencePlate> driverAndLicencePlateIterator = fileWithDataSet.iterator();
+
+        while(driverAndLicencePlateIterator.hasNext()){
+            DriverAndLicencePlate currentLicencePlate = driverAndLicencePlateIterator.next();
+            resultMap.put(readAndGeneratePickupNumber.pickUpNumber(), currentLicencePlate);
+        }
+
+        return new HashMap<>();
+        }
+
     public static void main(String[] args) {
 
         LoggingIn loggingIn = new LoggingIn();
 
-        loggingIn.logInInformationByDriver();
+
     }
+
+
 }
 
 
