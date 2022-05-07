@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -33,6 +34,23 @@ public class App extends Application {
         topControls.setAlignment(Pos.BOTTOM_LEFT);
 
         Button loadAndGenerateNumbersBtn = new Button("Wygeneruj numery zaladunku");
+        loadAndGenerateNumbersBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    ReadAndGeneratePickupNumber readAndGeneratePickupNumber = new ReadAndGeneratePickupNumber();
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("Otworz plik");
+                    String fileName = fileChooser.showOpenDialog(stage).getName();
+                    readAndGeneratePickupNumber.readFile(fileName);
+                    readAndGeneratePickupNumber.pickUpNumber();
+                    readAndGeneratePickupNumber.createFile();
+
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        });
 
         HBox topRightControls = new HBox();
         HBox.setHgrow(topRightControls, Priority.ALWAYS);
