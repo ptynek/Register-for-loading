@@ -1,30 +1,33 @@
 package com.kodilla.project;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
+import org.apache.commons.logging.Log;
+
+import java.awt.event.ItemEvent;
+import java.time.LocalDateTime;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class LogInWindow {
 
-    private StringProperty pickUpNumber = new SimpleStringProperty();
-    private StringProperty nameAndSurname = new SimpleStringProperty();
-    private StringProperty phoneNumber = new SimpleStringProperty();
-    private StringProperty licencePlate = new SimpleStringProperty();
-
-    public void logInPickUpNumber () {
+    public String pickUpNumber;
+    public String phoneNumber;
+    public String nameAndSurname;
+    public String licencePlate;
+    public LocalDateTime registryTime;
+        public void logInPickUpNumber () {
 
         GridPane gp = new GridPane();
         Stage stage = new Stage();
@@ -50,13 +53,15 @@ public class LogInWindow {
         stage.setScene(scene);
         stage.show();
 
-        String pickUpNumber = pickUpNumberField.getText();
+
 
         Button confirmBtn = new Button("Potwierdz");
-        confirmBtn.setOnAction(new EventHandler<ActionEvent>() {
+        confirmBtn.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent event) {
+                pickUpNumber = pickUpNumberField.getText();
                 if (pickUpNumber != "") {
+                    LogInByDriver logInByDriver = new LogInByDriver(pickUpNumber);
                     stage.close();
                     logInRestInformations();
                 }
@@ -85,7 +90,6 @@ public class LogInWindow {
         Label licencePlateLabel = new Label("Numer rejestracyjny pojazdu");
         TextField licencePlateField = new TextField();
 
-
         gp.add(nameAndSurnameLabel, 0 , 0);
         gp.add(nameAndSurnameField, 1, 0);
         gp.add(phoneNumberLabel, 0,1);
@@ -95,11 +99,16 @@ public class LogInWindow {
         gp.setHgap(10);
         gp.setVgap(10);
 
+        phoneNumber = phoneNumberField.getText();
+        nameAndSurname = nameAndSurnameField.getText();
+        licencePlate = licencePlateField.getText();
+        registryTime = LocalDateTime.now();
+
         Button addBtn = new Button("Dodaj");
-        addBtn.setOnAction(new EventHandler<ActionEvent>() {
+        addBtn.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.close();
+                confirmationLogInWindow();
             }
         });
         vBox.setSpacing(10);
@@ -110,6 +119,45 @@ public class LogInWindow {
         stage.setTitle("Projekt Piotr Tynek");
         stage.setScene(scene);
         stage.show();
+    }
 
+    public void confirmationLogInWindow() {
+       Stage stage = new Stage();
+
+
+       TableView<LogInByDriver> tblConfirmationTable = new TableView<>();
+       tblConfirmationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+       VBox.setVgrow(tblConfirmationTable, Priority.ALWAYS);
+
+       TableColumn<LogInByDriver, String> columnPickUpNumber = new TableColumn<>("Numer zaladunku");
+       TableColumn<LogInByDriver, String> columnPhoneNumber = new TableColumn<>("Numer telefonu");
+       TableColumn<LogInByDriver, String> columnNameAndSurname = new TableColumn<>("Imie i nazwisko");
+       TableColumn<LogInByDriver, String> columnLicencePlate = new TableColumn<>("Numery rejestracyjne");
+
+       columnPickUpNumber.setCellValueFactory(new PropertyValueFactory<>("pickumNumber"));
+       columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+       columnPickUpNumber.setCellValueFactory(new PropertyValueFactory<>("nameAndSurname"));
+       columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("Licenceplate"));
+
+       tblConfirmationTable.getColumns().addAll(columnPickUpNumber, columnPhoneNumber, columnNameAndSurname, columnLicencePlate);
+       tblConfirmationTable.getItems().addAll();
+
+       Button confirmBtn = new Button("Potwierdz");
+
+       HBox hBox = new HBox(confirmBtn);
+       hBox.setSpacing(8);
+
+       VBox vBox = new VBox(tblConfirmationTable, confirmBtn);
+       vBox.setSpacing(10);
+       vBox.setPadding(new Insets(10));
+
+       Scene scene = new Scene(vBox);
+
+       stage.setTitle("Podsumowanie");
+       stage.setScene(scene);
+       stage.setHeight(376);
+       stage.setWidth(667);
+       stage.show();
     }
 }

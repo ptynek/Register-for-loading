@@ -1,21 +1,16 @@
 package com.kodilla.project;
 
 public class PickUpNumber {
-
     String pickUpNumber;
-
     public PickUpNumber(String pickUpNumber) {
         this.pickUpNumber = pickUpNumber;
     }
-
     public String getPickUpNumber() {
         return pickUpNumber;
     }
-
     public void setPickUpNumber(String pickUpNumber) {
         this.pickUpNumber = pickUpNumber;
     }
-
     @Override
     public String toString() {
         return pickUpNumber;

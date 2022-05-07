@@ -1,0 +1,12 @@
+Numer zaladunku: I2WYOE
+Kierowca: Jakub Nowak
+Pojazd:  WX2321S
+
+Numer zaladunku: YQ7HBN
+Kierowca: Kamil Kobak
+Pojazd:  RSA3212N
+
+Numer zaladunku: ZK8WQ3
+Kierowca: Jan Kowalski
+Pojazd:  OP2342P
+

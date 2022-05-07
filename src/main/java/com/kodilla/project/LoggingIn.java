@@ -36,8 +36,6 @@ public class LoggingIn {
         System.out.println("Tablice rejestracyjne pojazdu");
         String licencePlate = scanner.nextLine().toUpperCase();
 
-        LogInByDriver logInByDriver = new LogInByDriver(pickUpNumber, phoneNumber, nameAndSurname, licencePlate);
-
     }
 
     public Map<String, DriverAndLicencePlate> pickUpNumberLicencePlateAndDriversMap(String fileName){

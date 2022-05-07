@@ -1,17 +1,40 @@
 package com.kodilla.project;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class LogInByDriver {
 
     private String pickUpNumber;
     private String phoneNumber;
     private String nameAndSurname;
     private String licencePlate;
+    private LocalDateTime registryTime;
 
+    public LogInByDriver(String pickUpNumber){
+        this.pickUpNumber = pickUpNumber;
+    }
+    public LogInByDriver(String phoneNumber, String nameAndSurname, String licencePlate, LocalDateTime registryTime) {
+        this.phoneNumber = phoneNumber;
+        this.nameAndSurname = nameAndSurname;
+        this.licencePlate = licencePlate;
+        this.registryTime = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+    }
+
+    public LogInByDriver(String pickUpNumber, String phoneNumber, String nameAndSurname, String licencePlate, LocalDateTime registryTime) {
+        this.pickUpNumber = pickUpNumber;
+        this.phoneNumber = phoneNumber;
+        this.nameAndSurname = nameAndSurname;
+        this.licencePlate = licencePlate;
+        this.registryTime = registryTime;
+    }
     public LogInByDriver(String pickUpNumber, String phoneNumber, String nameAndSurname, String licencePlate) {
         this.pickUpNumber = pickUpNumber;
         this.phoneNumber = phoneNumber;
         this.nameAndSurname = nameAndSurname;
         this.licencePlate = licencePlate;
+
     }
 
     public String getPickUpNumber() {
@@ -30,15 +53,8 @@ public class LogInByDriver {
         return licencePlate;
     }
 
-
-    @Override
-    public String toString() {
-        return "LogInByDriver{" +
-                "pickUpNumber='" + pickUpNumber + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", nameAndSurname='" + nameAndSurname + '\'' +
-                ", licencePlate='" + licencePlate + '\'' +
-                '}';
+    public LocalDateTime getRegistryTime() {
+        return registryTime;
     }
 
     @Override
@@ -62,4 +78,6 @@ public class LogInByDriver {
         result = 31 * result + licencePlate.hashCode();
         return result;
     }
+
+
 }

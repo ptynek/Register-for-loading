@@ -2,6 +2,7 @@ package com.kodilla.project;
 
 
 import com.opencsv.*;
+import javafx.stage.FileChooser;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.*;
@@ -46,9 +47,14 @@ public class ReadAndGeneratePickupNumber {
         return pickUpNumber;
     }
 
-    public void createFile() throws Exception{
+   /* private Set<PickUpNumber> collectionOfPickUpNumbers(PickUpNumber pickUpNumber){
+        Set<PickUpNumber> pickUpNumberSet = new HashSet<>();
+        pickUpNumberSet.add(pickUpNumber);
+        return new HashSet<>();
+    }*/
+    public void createFile(String fileName) throws Exception{
         ReadAndGeneratePickupNumber readAndGeneratePickupNumber = new ReadAndGeneratePickupNumber();
-        Set<DriverAndLicencePlate> driverAndLicencePlateSet = readAndGeneratePickupNumber.readFile("drivers.csv");
+        Set<DriverAndLicencePlate> driverAndLicencePlateSet = readAndGeneratePickupNumber.readFile(fileName);
         Map<PickUpNumber, DriverAndLicencePlate> driverAndLicencePlateMap = new HashMap<>();
 
         Iterator<DriverAndLicencePlate> iterator = driverAndLicencePlateSet.iterator();
@@ -59,17 +65,12 @@ public class ReadAndGeneratePickupNumber {
         }
         String path = "C:\\Users\\tynek\\Desktop\\Projects\\my-project\\src\\main\\resources\\";
 
-        try {
-
-            File myFile = new File(path + "Numery zaladunkow.csv");
-            myFile.createNewFile();
-        } catch (Exception e){
-            System.out.println(e);
-        }
+        File myFile = new File(path + "Numery zaladunkow.txt");
+        myFile.createNewFile();
 
         try {
-            FileWriter myWriter = new FileWriter(path + "Numery zaladunkow.csv");
-            for(Map.Entry<PickUpNumber, DriverAndLicencePlate> entry :driverAndLicencePlateMap.entrySet()){
+            FileWriter myWriter = new FileWriter(path + "Numery zaladunkow.txt");
+            for(Map.Entry<PickUpNumber, DriverAndLicencePlate> entry: driverAndLicencePlateMap.entrySet()){
                 myWriter.write(("Numer zaladunku: " + entry.getKey() + "\n"
                         + "Kierowca: " +  entry.getValue().getNameAndSurname() + "\n"
                         + "Pojazd: " + entry.getValue().getLicencePlate() + "\n\n"));

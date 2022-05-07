@@ -1,18 +1,12 @@
 package com.kodilla.project;
 
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -26,6 +20,8 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
         LogInWindow logInWindow = new LogInWindow();
+        WaitingLineQueue waitingLineQueue = new WaitingLineQueue();
+        LogInByDriver logInByDriver = new LogInByDriver(null);
 
         VBox vBox = new VBox();
 
@@ -42,12 +38,12 @@ public class App extends Application {
                     FileChooser fileChooser = new FileChooser();
                     fileChooser.setTitle("Otworz plik");
                     String fileName = fileChooser.showOpenDialog(stage).getName();
-                    readAndGeneratePickupNumber.readFile(fileName);
-                    readAndGeneratePickupNumber.pickUpNumber();
-                    readAndGeneratePickupNumber.createFile();
-
+                    readAndGeneratePickupNumber.createFile(fileName);
                 } catch (Exception e) {
                     System.out.println(e);
+                }
+                finally {
+                    System.out.println("Gotowe!");
                 }
             }
         });
@@ -63,7 +59,6 @@ public class App extends Application {
             @Override
             public void handle(ActionEvent event) {
                 logInWindow.logInPickUpNumber();
-
             }
         });
 
