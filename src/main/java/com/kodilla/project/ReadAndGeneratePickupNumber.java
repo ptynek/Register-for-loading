@@ -42,27 +42,31 @@ public class ReadAndGeneratePickupNumber {
         String pickUpNumber = "";
 
         pickUpNumber = RandomStringUtils.randomAlphanumeric(6);
-        pickUpNumber.toUpperCase();
 
-        return pickUpNumber;
+        return pickUpNumber.toUpperCase();
     }
 
-   /* private Set<PickUpNumber> collectionOfPickUpNumbers(PickUpNumber pickUpNumber){
-        Set<PickUpNumber> pickUpNumberSet = new HashSet<>();
-        pickUpNumberSet.add(pickUpNumber);
-        return new HashSet<>();
-    }*/
     public void createFile(String fileName) throws Exception{
         ReadAndGeneratePickupNumber readAndGeneratePickupNumber = new ReadAndGeneratePickupNumber();
+        DataBaseStorage dataBaseStorage = new DataBaseStorage();
         Set<DriverAndLicencePlate> driverAndLicencePlateSet = readAndGeneratePickupNumber.readFile(fileName);
         Map<PickUpNumber, DriverAndLicencePlate> driverAndLicencePlateMap = new HashMap<>();
 
         Iterator<DriverAndLicencePlate> iterator = driverAndLicencePlateSet.iterator();
         while(iterator.hasNext()) {
             DriverAndLicencePlate record = iterator.next();
-            PickUpNumber pickUpNumber = new PickUpNumber(readAndGeneratePickupNumber.pickUpNumber().toUpperCase());
+            PickUpNumber pickUpNumber = new PickUpNumber(readAndGeneratePickupNumber.pickUpNumber());
+            dataBaseStorage.PickUpNumbersSet.add(String.valueOf(pickUpNumber));
+            if (dataBaseStorage.PickUpNumbersSet.contains(pickUpNumber)) {
+
+            }
             driverAndLicencePlateMap.put(pickUpNumber, record);
         }
+
+        System.out.println("dataBaseStorage.PickUpNumbersSet (in ReadAndGeneratePickUpNumber): " + dataBaseStorage.PickUpNumbersSet);
+
+        //Scheduler executor service
+
         String path = "C:\\Users\\tynek\\Desktop\\Projects\\my-project\\src\\main\\resources\\";
 
         File myFile = new File(path + "Numery zaladunkow.txt");
@@ -70,7 +74,7 @@ public class ReadAndGeneratePickupNumber {
 
         try {
             FileWriter myWriter = new FileWriter(path + "Numery zaladunkow.txt");
-            for(Map.Entry<PickUpNumber, DriverAndLicencePlate> entry: driverAndLicencePlateMap.entrySet()){
+            for(Map.Entry<PickUpNumber, DriverAndLicencePlate> entry :driverAndLicencePlateMap.entrySet()){
                 myWriter.write(("Numer zaladunku: " + entry.getKey() + "\n"
                         + "Kierowca: " +  entry.getValue().getNameAndSurname() + "\n"
                         + "Pojazd: " + entry.getValue().getLicencePlate() + "\n\n"));

@@ -20,8 +20,6 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
         LogInWindow logInWindow = new LogInWindow();
-        WaitingLineQueue waitingLineQueue = new WaitingLineQueue();
-        LogInByDriver logInByDriver = new LogInByDriver(null);
 
         VBox vBox = new VBox();
 
@@ -42,9 +40,6 @@ public class App extends Application {
                 } catch (Exception e) {
                     System.out.println(e);
                 }
-                finally {
-                    System.out.println("Gotowe!");
-                }
             }
         });
 
@@ -53,14 +48,15 @@ public class App extends Application {
         topRightControls.setAlignment(Pos.BOTTOM_RIGHT );
         Button registerBtn = new Button("Zarejestruj sie");
         topRightControls.getChildren().add(registerBtn);
+
+        PopUp popUp = new PopUp();
+        Button test = new Button("Test");
+        topControls.getChildren().add(test);
+        test.setOnAction(event -> popUp.smallPopUp(""));
+
         topControls.getChildren().addAll(loadAndGenerateNumbersBtn, topRightControls);
 
-        registerBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                logInWindow.logInPickUpNumber();
-            }
-        });
+        registerBtn.setOnAction(event -> logInWindow.logInPickUpNumber());
 
         vBox.getChildren().add(topControls);
 

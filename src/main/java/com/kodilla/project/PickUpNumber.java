@@ -8,9 +8,6 @@ public class PickUpNumber {
     public String getPickUpNumber() {
         return pickUpNumber;
     }
-    public void setPickUpNumber(String pickUpNumber) {
-        this.pickUpNumber = pickUpNumber;
-    }
     @Override
     public String toString() {
         return pickUpNumber;

@@ -12,16 +12,6 @@ public class LogInByDriver {
     private String licencePlate;
     private LocalDateTime registryTime;
 
-    public LogInByDriver(String pickUpNumber){
-        this.pickUpNumber = pickUpNumber;
-    }
-    public LogInByDriver(String phoneNumber, String nameAndSurname, String licencePlate, LocalDateTime registryTime) {
-        this.phoneNumber = phoneNumber;
-        this.nameAndSurname = nameAndSurname;
-        this.licencePlate = licencePlate;
-        this.registryTime = LocalDateTime.of(LocalDate.now(), LocalTime.now());
-    }
-
     public LogInByDriver(String pickUpNumber, String phoneNumber, String nameAndSurname, String licencePlate, LocalDateTime registryTime) {
         this.pickUpNumber = pickUpNumber;
         this.phoneNumber = phoneNumber;

@@ -1,5 +1,8 @@
 package com.kodilla.project;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,19 +16,18 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.apache.commons.logging.Log;
 
-import java.awt.event.ItemEvent;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
 public class LogInWindow {
-
-    public String pickUpNumber;
-    public String phoneNumber;
-    public String nameAndSurname;
-    public String licencePlate;
+    TextField pickUpNumberField;
+    TextField phoneNumberField;
+    TextField nameAndSurnameField;
+    TextField licencePlateField;
     public LocalDateTime registryTime;
         public void logInPickUpNumber () {
 
@@ -33,7 +35,7 @@ public class LogInWindow {
         Stage stage = new Stage();
 
         Label pickUpNumberLabel = new Label("Numer zaladunku: ");
-        TextField pickUpNumberField = new TextField();
+        pickUpNumberField = new TextField();
 
         gp.add(pickUpNumberLabel, 0, 0);
         gp.add(pickUpNumberField, 1,0);
@@ -53,26 +55,26 @@ public class LogInWindow {
         stage.setScene(scene);
         stage.show();
 
+        DataBaseStorage dataBaseStorage = new DataBaseStorage();
 
+        System.out.println("dataBaseStorage.PickUpNumbersSet (print in class LogInWindow: " + dataBaseStorage.PickUpNumbersSet);
 
         Button confirmBtn = new Button("Potwierdz");
-        confirmBtn.setOnAction(new EventHandler<>() {
-            @Override
-            public void handle(ActionEvent event) {
-                pickUpNumber = pickUpNumberField.getText();
-                if (pickUpNumber != "") {
-                    LogInByDriver logInByDriver = new LogInByDriver(pickUpNumber);
-                    stage.close();
-                    logInRestInformations();
-                }
-
+        confirmBtn.setOnAction(event -> {
+            String pickUpNumber = pickUpNumberField.getText();
+            System.out.println("pickUpNumberField: " + pickUpNumber);
+            if (!pickUpNumber.equals("") && DataBaseStorage.PickUpNumbersSet.contains(pickUpNumber)) {
+                stage.close();
+                logInRestInformations();
+            } else {
+                pickUpNumberField.clear();
+                //popup informacji o błędnym numerze załadunku
             }
+
         });
         vBox.setSpacing(10);
         vBox.getChildren().add(confirmBtn);
-
     }
-
     public void logInRestInformations(){
 
         GridPane gp = new GridPane();
@@ -84,11 +86,11 @@ public class LogInWindow {
         vBox.setAlignment(Pos.CENTER);
 
         Label nameAndSurnameLabel = new Label("Imie i nazwisko: ");
-        TextField nameAndSurnameField = new TextField();
+        nameAndSurnameField = new TextField();
         Label phoneNumberLabel = new Label("Numer telefonu");
-        TextField phoneNumberField = new TextField();
+        phoneNumberField = new TextField();
         Label licencePlateLabel = new Label("Numer rejestracyjny pojazdu");
-        TextField licencePlateField = new TextField();
+        licencePlateField = new TextField();
 
         gp.add(nameAndSurnameLabel, 0 , 0);
         gp.add(nameAndSurnameField, 1, 0);
@@ -99,17 +101,10 @@ public class LogInWindow {
         gp.setHgap(10);
         gp.setVgap(10);
 
-        phoneNumber = phoneNumberField.getText();
-        nameAndSurname = nameAndSurnameField.getText();
-        licencePlate = licencePlateField.getText();
-        registryTime = LocalDateTime.now();
-
         Button addBtn = new Button("Dodaj");
-        addBtn.setOnAction(new EventHandler<>() {
-            @Override
-            public void handle(ActionEvent event) {
-                confirmationLogInWindow();
-            }
+        addBtn.setOnAction(event -> {
+            stage.close();
+            confirmationLogInWindow();
         });
         vBox.setSpacing(10);
         vBox.getChildren().add(addBtn);
@@ -124,9 +119,13 @@ public class LogInWindow {
     public void confirmationLogInWindow() {
        Stage stage = new Stage();
 
+       final ObservableList<LogInByDriver> dataForSummaryView = FXCollections.observableArrayList
+                       (new LogInByDriver(pickUpNumberField.getText(), phoneNumberField.getText() , nameAndSurnameField.getText(), licencePlateField.getText()));
+       registryTime = LocalDateTime.now();
 
        TableView<LogInByDriver> tblConfirmationTable = new TableView<>();
        tblConfirmationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+       tblConfirmationTable.setEditable(true);
 
        VBox.setVgrow(tblConfirmationTable, Priority.ALWAYS);
 
@@ -135,15 +134,18 @@ public class LogInWindow {
        TableColumn<LogInByDriver, String> columnNameAndSurname = new TableColumn<>("Imie i nazwisko");
        TableColumn<LogInByDriver, String> columnLicencePlate = new TableColumn<>("Numery rejestracyjne");
 
-       columnPickUpNumber.setCellValueFactory(new PropertyValueFactory<>("pickumNumber"));
+       columnPickUpNumber.setCellValueFactory(new PropertyValueFactory<>("pickUpNumber"));
        columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-       columnPickUpNumber.setCellValueFactory(new PropertyValueFactory<>("nameAndSurname"));
-       columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("Licenceplate"));
+       columnNameAndSurname.setCellValueFactory(new PropertyValueFactory<>("nameAndSurname"));
+       columnLicencePlate.setCellValueFactory(new PropertyValueFactory<>("licencePlate"));
 
        tblConfirmationTable.getColumns().addAll(columnPickUpNumber, columnPhoneNumber, columnNameAndSurname, columnLicencePlate);
-       tblConfirmationTable.getItems().addAll();
+       tblConfirmationTable.setItems(dataForSummaryView);
 
        Button confirmBtn = new Button("Potwierdz");
+       confirmBtn.setOnAction(event -> {
+            //popup informacji o czasie oczekiwania do załadunku
+       });
 
        HBox hBox = new HBox(confirmBtn);
        hBox.setSpacing(8);
