@@ -2,20 +2,17 @@ package com.kodilla.project;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.commons.logging.Log;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class DataBaseStorage {
 
         public static Set<String> PickUpNumbersSet = new HashSet<>();
 
-        public boolean containsPickUpNumber(PickUpNumber pickUpNumber){
+        public static Deque<String> entryQueue = new ArrayDeque<>();
 
-                if (PickUpNumbersSet.contains(pickUpNumber)){
-                        return true;
-                }
-                return false;
-        }
+        public static Set<LogInByDriver> driversLoggedIn = new HashSet<>();
+
 
 }

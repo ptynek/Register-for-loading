@@ -11,21 +11,25 @@ public class LogInByDriver {
     private String nameAndSurname;
     private String licencePlate;
     private LocalDateTime registryTime;
+    private boolean calledIn;
 
-    public LogInByDriver(String pickUpNumber, String phoneNumber, String nameAndSurname, String licencePlate, LocalDateTime registryTime) {
-        this.pickUpNumber = pickUpNumber;
-        this.phoneNumber = phoneNumber;
-        this.nameAndSurname = nameAndSurname;
-        this.licencePlate = licencePlate;
-        this.registryTime = registryTime;
-    }
     public LogInByDriver(String pickUpNumber, String phoneNumber, String nameAndSurname, String licencePlate) {
         this.pickUpNumber = pickUpNumber;
         this.phoneNumber = phoneNumber;
         this.nameAndSurname = nameAndSurname;
         this.licencePlate = licencePlate;
-
     }
+
+    public LogInByDriver(String pickUpNumber, String phoneNumber, String nameAndSurname, String licencePlate, LocalDateTime registryTime, boolean calledIn) {
+        this.pickUpNumber = pickUpNumber;
+        this.phoneNumber = phoneNumber;
+        this.nameAndSurname = nameAndSurname;
+        this.licencePlate = licencePlate;
+        this.registryTime = registryTime;
+        this.calledIn = calledIn;
+    }
+
+
 
     public String getPickUpNumber() {
         return pickUpNumber;
@@ -46,6 +50,7 @@ public class LogInByDriver {
     public LocalDateTime getRegistryTime() {
         return registryTime;
     }
+
 
     @Override
     public boolean equals(Object o) {

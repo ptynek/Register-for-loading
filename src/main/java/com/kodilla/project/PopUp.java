@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class PopUp {
@@ -20,6 +21,7 @@ public class PopUp {
 
         Text text = new Text(information);
         text.setWrappingWidth(280);
+        text.setTextAlignment(TextAlignment.CENTER);
 
         gridPane.add(text, 0,0);
 

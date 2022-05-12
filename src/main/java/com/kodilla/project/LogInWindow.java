@@ -17,22 +17,31 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
+import java.util.Map;
 
 public class LogInWindow {
-    TextField pickUpNumberField;
-    TextField phoneNumberField;
-    TextField nameAndSurnameField;
-    TextField licencePlateField;
-    public LocalDateTime registryTime;
+    private TextField pickUpNumberField;
+    private TextField phoneNumberField;
+    private TextField nameAndSurnameField;
+    private TextField licencePlateField;
+    private LocalDateTime registryTime;
+
+
+    private String pickUpNumber;
+
         public void logInPickUpNumber () {
 
         GridPane gp = new GridPane();
         Stage stage = new Stage();
+        PopUp popUp = new PopUp();
 
         Label pickUpNumberLabel = new Label("Numer zaladunku: ");
         pickUpNumberField = new TextField();
@@ -61,14 +70,14 @@ public class LogInWindow {
 
         Button confirmBtn = new Button("Potwierdz");
         confirmBtn.setOnAction(event -> {
-            String pickUpNumber = pickUpNumberField.getText();
+            pickUpNumber = pickUpNumberField.getText();
             System.out.println("pickUpNumberField: " + pickUpNumber);
             if (!pickUpNumber.equals("") && DataBaseStorage.PickUpNumbersSet.contains(pickUpNumber)) {
                 stage.close();
                 logInRestInformations();
             } else {
                 pickUpNumberField.clear();
-                //popup informacji o błędnym numerze załadunku
+                popUp.smallPopUp("Bledny numer zaladunku");
             }
 
         });
@@ -118,14 +127,15 @@ public class LogInWindow {
 
     public void confirmationLogInWindow() {
        Stage stage = new Stage();
+       PopUp popUp = new PopUp();
+
+       registryTime = LocalDateTime.now();
 
        final ObservableList<LogInByDriver> dataForSummaryView = FXCollections.observableArrayList
                        (new LogInByDriver(pickUpNumberField.getText(), phoneNumberField.getText() , nameAndSurnameField.getText(), licencePlateField.getText()));
-       registryTime = LocalDateTime.now();
 
        TableView<LogInByDriver> tblConfirmationTable = new TableView<>();
        tblConfirmationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-       tblConfirmationTable.setEditable(true);
 
        VBox.setVgrow(tblConfirmationTable, Priority.ALWAYS);
 
@@ -144,7 +154,15 @@ public class LogInWindow {
 
        Button confirmBtn = new Button("Potwierdz");
        confirmBtn.setOnAction(event -> {
-            //popup informacji o czasie oczekiwania do załadunku
+           LogInByDriver loggingIn = new LogInByDriver
+                   (pickUpNumberField.getText(), phoneNumberField.getText(), nameAndSurnameField.getText(), licencePlateField.getText(), registryTime.plusMinutes(plusMinutesToGetIn()), false);
+           DataBaseStorage.driversLoggedIn.add(loggingIn);
+           stage.close();
+           DataBaseStorage.PickUpNumbersSet.remove(pickUpNumber);
+           popUp.smallPopUp("Szacowany czas oczekiwania to: " + plusMinutesToGetIn() + " minut");
+           DataBaseStorage.entryQueue.offer(licencePlateField.getText());
+           System.out.println("drivers.loggedinSize: " + DataBaseStorage.driversLoggedIn.size());
+
        });
 
        HBox hBox = new HBox(confirmBtn);
@@ -161,5 +179,30 @@ public class LogInWindow {
        stage.setHeight(376);
        stage.setWidth(667);
        stage.show();
+
+
+    }
+
+    private Integer plusMinutesToGetIn(){
+
+            int minutes = 0;
+
+            if (DataBaseStorage.entryQueue.size() == 0 ) {
+                minutes = 1;
+            } else {
+                minutes = DataBaseStorage.entryQueue.size() * 10;
+            }
+
+            return minutes;
+    }
+
+    private String formatDateTime(LocalDateTime localDateTime) {
+            String registryTime = "";
+
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
+            registryTime = localDateTime.format(dateTimeFormatter);
+
+            return registryTime;
     }
 }

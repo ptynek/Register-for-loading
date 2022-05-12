@@ -56,10 +56,10 @@ public class ReadAndGeneratePickupNumber {
         while(iterator.hasNext()) {
             DriverAndLicencePlate record = iterator.next();
             PickUpNumber pickUpNumber = new PickUpNumber(readAndGeneratePickupNumber.pickUpNumber());
-            dataBaseStorage.PickUpNumbersSet.add(String.valueOf(pickUpNumber));
             if (dataBaseStorage.PickUpNumbersSet.contains(pickUpNumber)) {
-
+                pickUpNumber = new PickUpNumber(readAndGeneratePickupNumber.pickUpNumber());
             }
+            dataBaseStorage.PickUpNumbersSet.add(String.valueOf(pickUpNumber));
             driverAndLicencePlateMap.put(pickUpNumber, record);
         }
 
