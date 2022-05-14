@@ -39,7 +39,6 @@ public class PopUp {
         vBox.setSpacing(15);
         vBox.getChildren().add(okButton);
 
-
         Scene scene = new Scene(vBox, 300, 150);
 
         stage.setTitle("Informacja");

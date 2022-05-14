@@ -1,8 +1,6 @@
 package com.kodilla.project;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class LogInByDriver {
 
@@ -47,10 +45,31 @@ public class LogInByDriver {
         return licencePlate;
     }
 
-    public LocalDateTime getRegistryTime() {
-        return registryTime;
+    public void setCalledIn(boolean calledIn) {
+        this.calledIn = calledIn;
     }
 
+    public String getRegistryTime(){
+        LogInWindow logInWindow = new LogInWindow();
+        String time = logInWindow.formatDateTime(registryTime);
+        return time;
+    }
+
+    public String getCalledIn(){
+        if (calledIn) {
+            return "Wezwany";
+        } else  {
+            return "Oczekiwanie";
+        }
+    }
+
+    public Boolean getCalledInBoolean(){
+
+        if (calledIn) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean equals(Object o) {

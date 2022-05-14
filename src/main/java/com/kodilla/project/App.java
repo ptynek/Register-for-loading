@@ -3,7 +3,6 @@ package com.kodilla.project;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -20,20 +19,20 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javafx.scene.control.TableColumn;
-import org.apache.commons.logging.Log;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.concurrent.ScheduledFuture;
 
 public class App extends Application {
+
+    TableView<LogInByDriver> loggedInDrivers = new TableView<>();
+    ObservableList<LogInByDriver> dataForLoggedInDrivers = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage stage) throws Exception {
 
         LogInWindow logInWindow = new LogInWindow();
+        GetInside getInside = new GetInside();
 
         DataBaseStorage.PickUpNumbersSet.add("XXXXXX");
         DataBaseStorage.PickUpNumbersSet.add("XXXXXY");
@@ -70,23 +69,16 @@ public class App extends Application {
         HBox testBtns = new HBox();
         testBtns.setSpacing(10);
         HBox.setHgrow(testBtns, Priority.ALWAYS);
-        PopUp popUp = new PopUp();
         Button test = new Button("Test");
         testBtns.getChildren().add(test);
         testBtns.setAlignment(Pos.TOP_RIGHT);
-        test.setOnAction(event -> popUp.smallPopUp("xxx"));
+
+        test.setOnAction(event -> getInside.getInsideWindow());
 
         topControls.getChildren().addAll(loadAndGenerateNumbersBtn, testBtns, topRightControls);
 
         registerBtn.setOnAction(event -> logInWindow.logInPickUpNumber());
 
-        ObservableList<LogInByDriver> dataForLoggedInDrivers = FXCollections.observableArrayList();
-
-        for (LogInByDriver record:DataBaseStorage.driversLoggedIn){
-            dataForLoggedInDrivers.add(record);
-        }
-
-        TableView<LogInByDriver> loggedInDrivers = new TableView<>();
         loggedInDrivers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         VBox.setVgrow(loggedInDrivers, Priority.ALWAYS);
 
@@ -107,13 +99,13 @@ public class App extends Application {
         loggedInDrivers.getColumns().addAll(
                 colPickUpNumber, colPhoneNumber, colNameAndSurname, colLicencePlate, colEstimatedTimeToCallIn, colCalledIn
              );
+
         loggedInDrivers.setItems(dataForLoggedInDrivers);
 
         Button refreshBtn = new Button("refresh");
         refreshBtn.setOnAction(event -> {
-            loggedInDrivers.refresh();
-            System.out.println("drivers.loggedinSize: " + DataBaseStorage.driversLoggedIn.size());
-            System.out.println("OBList: " + dataForLoggedInDrivers.size());
+            refreshTableView();
+            colEstimatedTimeToCallIn.setSortType(TableColumn.SortType.DESCENDING);
         });
 
         VBox vBox = new VBox(topControls, loggedInDrivers, refreshBtn);
@@ -127,6 +119,14 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        SchedulerGetIn schedulerGetIn = new SchedulerGetIn();
+        schedulerGetIn.callToGetIn();
         launch(args);
+    }
+
+    public void refreshTableView(){
+        loggedInDrivers.getItems().clear();
+        dataForLoggedInDrivers.addAll(DataBaseStorage.driversLoggedIn);
+        loggedInDrivers.refresh();
     }
 }

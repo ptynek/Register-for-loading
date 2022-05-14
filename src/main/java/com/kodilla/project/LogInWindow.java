@@ -1,5 +1,6 @@
 package com.kodilla.project;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
@@ -128,6 +129,7 @@ public class LogInWindow {
     public void confirmationLogInWindow() {
        Stage stage = new Stage();
        PopUp popUp = new PopUp();
+       App app = new App();
 
        registryTime = LocalDateTime.now();
 
@@ -161,8 +163,7 @@ public class LogInWindow {
            DataBaseStorage.PickUpNumbersSet.remove(pickUpNumber);
            popUp.smallPopUp("Szacowany czas oczekiwania to: " + plusMinutesToGetIn() + " minut");
            DataBaseStorage.entryQueue.offer(licencePlateField.getText());
-           System.out.println("drivers.loggedinSize: " + DataBaseStorage.driversLoggedIn.size());
-
+           app.refreshTableView();
        });
 
        HBox hBox = new HBox(confirmBtn);
@@ -180,7 +181,6 @@ public class LogInWindow {
        stage.setWidth(667);
        stage.show();
 
-
     }
 
     private Integer plusMinutesToGetIn(){
@@ -190,13 +190,13 @@ public class LogInWindow {
             if (DataBaseStorage.entryQueue.size() == 0 ) {
                 minutes = 1;
             } else {
-                minutes = DataBaseStorage.entryQueue.size() * 10;
+                minutes = DataBaseStorage.entryQueue.size() + 1;
             }
 
             return minutes;
     }
 
-    private String formatDateTime(LocalDateTime localDateTime) {
+    public String formatDateTime(LocalDateTime localDateTime) {
             String registryTime = "";
 
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
