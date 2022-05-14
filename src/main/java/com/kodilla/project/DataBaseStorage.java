@@ -11,7 +11,7 @@ public class DataBaseStorage {
 
         public static Set<LogInByDriver> driversLoggedIn = new HashSet<>();
 
-        public static Set<LogInByDriver> loadingDriversSet = new HashSet<>();
+        public static Set<LoadingDrivers> loadingDriversSet = new HashSet<>();
 
 
 }

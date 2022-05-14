@@ -72,7 +72,6 @@ public class LogInWindow {
         Button confirmBtn = new Button("Potwierdz");
         confirmBtn.setOnAction(event -> {
             pickUpNumber = pickUpNumberField.getText();
-            System.out.println("pickUpNumberField: " + pickUpNumber);
             if (!pickUpNumber.equals("") && DataBaseStorage.PickUpNumbersSet.contains(pickUpNumber)) {
                 stage.close();
                 logInRestInformations();

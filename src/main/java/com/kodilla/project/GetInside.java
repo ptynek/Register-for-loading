@@ -14,8 +14,10 @@ import javafx.stage.Stage;
 
 public class GetInside {
 
+    PopUp popUp = new PopUp();
     private TextField pickUpNumberTF;
     private TextField tareField;
+    private Double tare;
 
     public void getInsideWindow (){
 
@@ -25,8 +27,10 @@ public class GetInside {
         Label pickUpNumberLabel = new Label("Numer zaladunku: ");
         pickUpNumberTF = new TextField();
 
-        Label tareLabel = new Label("Tare: ");
+        Label tareLabel = new Label("Waga pustego zestawu: ");
         tareField = new TextField();
+
+        tare = Double.parseDouble(tareField.toString());
 
         GridPane gridPane = new GridPane();
         gridPane.add(pickUpNumberLabel,0,0);
@@ -44,7 +48,7 @@ public class GetInside {
 
         Button entryBtn = new Button("Wjedz");
         entryBtn.setOnAction(event ->
-                checkStatus()
+                getInsideforLoading()
         );
 
         vBox.setSpacing(15);
@@ -58,11 +62,15 @@ public class GetInside {
 
     }
 
-    public void checkStatus(){
-
+    public void getInsideforLoading(){
         DataBaseStorage.driversLoggedIn.stream()
-                .filter(rec -> rec.getCalledInBoolean() == true)
-                .forEach(rec -> DataBaseStorage.loadingDriversSet.add(rec));
-
+                .filter(record -> record.getCalledInBoolean() == true)
+                .forEach(record -> {
+                    if(!record.getPickUpNumber().equals(pickUpNumberTF.getText())){
+                        popUp.smallPopUp("Bledny numer zaladunku");
+                    }
+                    LoadingDrivers loadingDriver = new LoadingDrivers(record.getPickUpNumber(), record.getLicencePlate(), record.getNameAndSurname(), tare);
+                    DataBaseStorage.loadingDriversSet.add(loadingDriver);
+                });
     }
 }
