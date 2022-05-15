@@ -23,18 +23,14 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LogInWindow {
-    private TextField pickUpNumberField;
-    private TextField phoneNumberField;
-    private TextField nameAndSurnameField;
-    private TextField licencePlateField;
-    private LocalDateTime registryTime;
-
+    TextField pickUpNumberField;
+    TextField phoneNumberField;
+    TextField nameAndSurnameField;
+    TextField licencePlateField;
+    LocalDateTime registryTime;
 
     private String pickUpNumber;
 
@@ -128,12 +124,11 @@ public class LogInWindow {
     public void confirmationLogInWindow() {
        Stage stage = new Stage();
        PopUp popUp = new PopUp();
-       App app = new App();
 
        registryTime = LocalDateTime.now();
 
-       final ObservableList<LogInByDriver> dataForSummaryView = FXCollections.observableArrayList
-                       (new LogInByDriver(pickUpNumberField.getText(), phoneNumberField.getText() , nameAndSurnameField.getText(), licencePlateField.getText()));
+       final ObservableList<LogInByDriver> dataForSummaryView = FXCollections.observableArrayList();
+       dataForSummaryView.add(new LogInByDriver(pickUpNumberField.getText(), phoneNumberField.getText() , nameAndSurnameField.getText(), licencePlateField.getText()));
 
        TableView<LogInByDriver> tblConfirmationTable = new TableView<>();
        tblConfirmationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -156,13 +151,13 @@ public class LogInWindow {
        Button confirmBtn = new Button("Potwierdz");
        confirmBtn.setOnAction(event -> {
            LogInByDriver loggingIn = new LogInByDriver
-                   (pickUpNumberField.getText(), phoneNumberField.getText(), nameAndSurnameField.getText(), licencePlateField.getText(), registryTime.plusMinutes(plusMinutesToGetIn()), false);
+                   (pickUpNumberField.getText(), phoneNumberField.getText(), nameAndSurnameField.getText(), licencePlateField.getText(), registryTime.plusSeconds(10), false);
            DataBaseStorage.driversLoggedIn.add(loggingIn);
            stage.close();
            DataBaseStorage.PickUpNumbersSet.remove(pickUpNumber);
            popUp.smallPopUp("Szacowany czas oczekiwania to: " + plusMinutesToGetIn() + " minut");
            DataBaseStorage.entryQueue.offer(licencePlateField.getText());
-           app.refreshTableView();
+           App.refreshTableView();
        });
 
        HBox hBox = new HBox(confirmBtn);

@@ -5,9 +5,9 @@ public class LoadingDrivers {
     private String pickUpNumber;
     private String licencePlate;
     private String nameAndSurname;
-    private Double tareWeight;
+    private Integer tareWeight;
 
-    public LoadingDrivers(String pickUpNumber, String licencePlate, String nameAndSurname, Double tareWeight) {
+    public LoadingDrivers(String pickUpNumber, String licencePlate, String nameAndSurname, Integer tareWeight) {
         this.pickUpNumber = pickUpNumber;
         this.licencePlate = licencePlate;
         this.nameAndSurname = nameAndSurname;
@@ -26,7 +26,7 @@ public class LoadingDrivers {
         return nameAndSurname;
     }
 
-    public Double getTareWeight() {
+    public Integer getTareWeight() {
         return tareWeight;
     }
 
@@ -48,7 +48,6 @@ public class LoadingDrivers {
         int result = pickUpNumber.hashCode();
         result = 31 * result + licencePlate.hashCode();
         result = 31 * result + nameAndSurname.hashCode();
-        result = 31 * result + tareWeight.hashCode();
         return result;
     }
 }

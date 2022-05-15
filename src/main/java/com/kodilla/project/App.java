@@ -1,6 +1,7 @@
 package com.kodilla.project;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,8 +26,8 @@ import java.util.concurrent.ScheduledFuture;
 
 public class App extends Application {
 
-    TableView<LogInByDriver> loggedInDrivers = new TableView<>();
-    ObservableList<LogInByDriver> dataForLoggedInDrivers = FXCollections.observableArrayList();
+     static TableView<LogInByDriver> loggedInDrivers = new TableView<>();
+     static ObservableList<LogInByDriver> dataForLoggedInDrivers = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -122,9 +123,10 @@ public class App extends Application {
         SchedulerGetIn schedulerGetIn = new SchedulerGetIn();
         schedulerGetIn.callToGetIn();
         launch(args);
+        System.exit(0);
     }
 
-    public void refreshTableView(){
+    public static void refreshTableView(){
         loggedInDrivers.getItems().clear();
         dataForLoggedInDrivers.addAll(DataBaseStorage.driversLoggedIn);
         loggedInDrivers.refresh();

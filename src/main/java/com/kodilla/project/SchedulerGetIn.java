@@ -22,24 +22,25 @@ public class SchedulerGetIn{
 
     public void callToGetIn(){
 
+        tableFromQueue.addAll(DataBaseStorage.entryQueue);
+
         Runnable callInMessage = () -> {
-
-
-            tableFromQueue.addAll(DataBaseStorage.entryQueue);
 
             for (LogInByDriver record:DataBaseStorage.driversLoggedIn){
                 final String currentTime = logInWindow.formatDateTime(LocalDateTime.now());
-
                 if(currentTime.equals(record.getRegistryTime())){
                     try {
-                        if (tableFromQueue.size() > 1) {
+                        if (tableFromQueue.size() >= 2) {
+                            System.out.println(tableFromQueue);
                             record.setCalledIn(true);
                             Platform.runLater(() -> popUp.smallPopUp("Wjazd: " + record.getLicencePlate() + "\n" + "Kolejny do wjazdu: " + tableFromQueue.get(1)));
                             DataBaseStorage.entryQueue.remove(record.getLicencePlate());
+                            App.refreshTableView();
                         } else {
                             record.setCalledIn(true);
                             Platform.runLater(() -> popUp.smallPopUp("Wjazd: " + record.getLicencePlate()));
                             DataBaseStorage.entryQueue.remove(record.getLicencePlate());
+                            App.refreshTableView();
                         }
                     } catch (Exception e){
                         System.out.println(e);
@@ -49,7 +50,7 @@ public class SchedulerGetIn{
             }
         };
 
-        scheduler.scheduleAtFixedRate(callInMessage, 1,55,SECONDS);
+        scheduler.scheduleAtFixedRate(callInMessage, 1,10,SECONDS);
 
 
     }
