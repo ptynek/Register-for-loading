@@ -13,6 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.commons.logging.Log;
 
+import java.util.Iterator;
+import java.util.Random;
 import java.util.stream.Stream;
 
 public class GetInside {
@@ -40,21 +42,22 @@ public class GetInside {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
 
+        pickUpNumberTF.setText("XXXXXX");
+        tareField.setText("12000");
+
         HBox hBox = new HBox(gridPane);
         hBox.setAlignment(Pos.CENTER);
 
         VBox vBox = new VBox(hBox);
         vBox.setAlignment(Pos.CENTER);
 
-
-
         Button entryBtn = new Button("Wjedz");
         entryBtn.setOnAction(event -> {
+            tare = Integer.parseInt(tareField.getText());
             getInsideforLoading();
             stage.close();
             App.refreshTableView();
-            tare = Integer.parseInt(tareField.getText());
-            popUp.smallPopUp("Maksymalna mozliwa waga do zaladowania: " + loadingStation(tare)  + " kg");
+            popUp.smallPopUp("Maksymalna mozliwa waga do zaladowania: " + countWeightToBeLoaded(tare)  + " kg");
         });
 
         vBox.setSpacing(15);
@@ -78,9 +81,11 @@ public class GetInside {
                         if (!record.getPickUpNumber().equals(pickUpNumberTF.getText())) {
                             popUp.smallPopUp("Bledny numer zaladunku");
                         } else {
-                            LoadingDrivers loadingDriver = new LoadingDrivers(record.getPickUpNumber(), record.getLicencePlate(), record.getNameAndSurname(), tare);
+                            LoadingDrivers loadingDriver = new LoadingDrivers(record.getPickUpNumber(), record.getLicencePlate(), record.getNameAndSurname(), tare, tare);
                             DataBaseStorage.loadingDriversSet.add(loadingDriver);
                             getInside.removeFromMainTable(loadingDriver);
+                            getInside.loadingStation(loadingDriver);
+                            getInside.checkIfLoadingIsCorrect(loadingDriver);
                         }
                     });
         } catch (Exception e) {
@@ -90,19 +95,56 @@ public class GetInside {
 
 
     public void removeFromMainTable(LoadingDrivers loadingDrivers){
-        for(LogInByDriver rec:DataBaseStorage.driversLoggedIn){
-            if (loadingDrivers.getPickUpNumber().equals(rec.getPickUpNumber())){
-                DataBaseStorage.driversLoggedIn.remove(rec);
+
+        Iterator<LogInByDriver> driversLoggedInIterator = DataBaseStorage.driversLoggedIn.iterator();
+
+        while(driversLoggedInIterator.hasNext()){
+            LogInByDriver record = driversLoggedInIterator.next();
+            if(loadingDrivers.getPickUpNumber().equals(record.getPickUpNumber())){
+                DataBaseStorage.driversLoggedIn.remove(record);
             }
         }
     }
 
-    public Integer loadingStation(Integer tare){
+    public Integer countWeightToBeLoaded(Integer tare){
 
         int maxWeight = 40000;
 
         int weightToBeLoaded = maxWeight - tare;
 
         return weightToBeLoaded;
+    }
+
+    public Integer loadingStation(LoadingDrivers loadingDrivers){
+
+        Random random = new Random();
+
+        int loadedWeight = 0;
+
+        while (loadingDrivers.getGrossWeight() <= 40000) {
+            int loadingWeight = random.nextInt(1500);
+
+            if  (loadingDrivers.getGrossWeight() + loadingWeight <= 40000) {
+                loadedWeight += loadingWeight;
+                loadingDrivers.setGrossWeight(loadingDrivers.getGrossWeight() + loadingWeight);
+//                popUp.smallPopUp("Ladowanie: " + loadingDrivers.getGrossWeight());
+            } else {
+                break;
+            }
+        }
+
+        return loadedWeight;
+    }
+
+    public void checkIfLoadingIsCorrect(LoadingDrivers loadingDrivers){
+
+        if(loadingDrivers.getGrossWeight() <= 40000){
+            popUp.smallPopUp("Zaladunek przebiegl prawidlowo!" + "\n"
+                    + "Zaladowano: " + (loadingDrivers.getGrossWeight() - loadingDrivers.getTareWeight()) + " kg" + "\n"
+                    + "Waga po zaladunku: " + loadingDrivers.getGrossWeight() + " kg");
+        } else {
+            popUp.smallPopUp("Zaladunek wykonany nieprawidlowo!" + "\n"
+                                + "Przeladowano: " + (loadingDrivers.getGrossWeight() - 40000) + " kg");
+        }
     }
 }

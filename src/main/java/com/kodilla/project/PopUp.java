@@ -44,7 +44,36 @@ public class PopUp {
         stage.setTitle("Informacja");
         stage.setScene(scene);
         stage.show();
+    }
 
+    public void loadingPopUp(String information){
+        GridPane gridPane = new GridPane();
+        Stage stage = new Stage();
 
+        Text text = new Text(information);
+        text.setWrappingWidth(280);
+        text.setTextAlignment(TextAlignment.CENTER);
+
+        gridPane.add(text, 0,0);
+
+        gridPane.setVgap(10);
+        gridPane.setHgap(10);
+
+        HBox hBox = new HBox(gridPane);
+        hBox.setAlignment(Pos.CENTER);
+
+        VBox vBox = new VBox(hBox);
+        vBox.setAlignment(Pos.CENTER);
+
+   /*     Button okButton = new Button("Potwierdz");
+        okButton.setOnAction(event -> stage.close());
+        vBox.setSpacing(15);
+        vBox.getChildren().add(okButton);*/
+
+        Scene scene = new Scene(vBox, 500, 800);
+
+        stage.setTitle("Ladowanie");
+        stage.setScene(scene);
+        stage.show();
     }
 }

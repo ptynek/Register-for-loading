@@ -49,10 +49,7 @@ public class SchedulerGetIn{
 
             }
         };
-
         scheduler.scheduleAtFixedRate(callInMessage, 1,10,SECONDS);
-
-
     }
 
 }

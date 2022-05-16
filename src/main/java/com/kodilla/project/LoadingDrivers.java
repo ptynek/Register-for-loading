@@ -6,12 +6,21 @@ public class LoadingDrivers {
     private String licencePlate;
     private String nameAndSurname;
     private Integer tareWeight;
+    private Integer grossWeight;
 
     public LoadingDrivers(String pickUpNumber, String licencePlate, String nameAndSurname, Integer tareWeight) {
         this.pickUpNumber = pickUpNumber;
         this.licencePlate = licencePlate;
         this.nameAndSurname = nameAndSurname;
         this.tareWeight = tareWeight;
+    }
+
+    public LoadingDrivers(String pickUpNumber, String licencePlate, String nameAndSurname, Integer tareWeight, Integer grossWeight) {
+        this.pickUpNumber = pickUpNumber;
+        this.licencePlate = licencePlate;
+        this.nameAndSurname = nameAndSurname;
+        this.tareWeight = tareWeight;
+        this.grossWeight = grossWeight;
     }
 
     public String getPickUpNumber() {
@@ -28,6 +37,25 @@ public class LoadingDrivers {
 
     public Integer getTareWeight() {
         return tareWeight;
+    }
+
+    public Integer getGrossWeight() {
+        return grossWeight;
+    }
+
+    public void setGrossWeight(Integer grossWeight) {
+        this.grossWeight = grossWeight;
+    }
+
+    @Override
+    public String toString() {
+        return "LoadingDrivers{" +
+                "pickUpNumber='" + pickUpNumber + '\'' +
+                ", licencePlate='" + licencePlate + '\'' +
+                ", nameAndSurname='" + nameAndSurname + '\'' +
+                ", tareWeight=" + tareWeight +
+                ", grossWeight=" + grossWeight +
+                '}';
     }
 
     @Override
