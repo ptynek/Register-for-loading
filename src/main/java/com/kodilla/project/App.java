@@ -68,7 +68,7 @@ public class App extends Application {
         HBox testBtns = new HBox();
         testBtns.setSpacing(10);
         HBox.setHgrow(testBtns, Priority.ALWAYS);
-        Button test = new Button("Test");
+        Button test = new Button("Wjazd");
         testBtns.getChildren().add(test);
         testBtns.setAlignment(Pos.TOP_RIGHT);
 
@@ -101,13 +101,8 @@ public class App extends Application {
 
         loggedInDrivers.setItems(dataForLoggedInDrivers);
 
-        Button refreshBtn = new Button("refresh");
-        refreshBtn.setOnAction(event -> {
-            refreshTableView();
-            colEstimatedTimeToCallIn.setSortType(TableColumn.SortType.DESCENDING);
-        });
 
-        VBox vBox = new VBox(topControls, loggedInDrivers, refreshBtn);
+        VBox vBox = new VBox(topControls, loggedInDrivers);
         vBox.setPadding(new Insets(10, 10,20,10));
 
         Scene scene = new Scene(vBox, 1400, 750, Color.GRAY);
