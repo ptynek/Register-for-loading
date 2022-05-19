@@ -1,11 +1,7 @@
 package com.kodilla.project;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,12 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+
 
 public class LogInWindow {
     TextField pickUpNumberField;
@@ -64,8 +57,6 @@ public class LogInWindow {
         stage.show();
 
         DataBaseStorage dataBaseStorage = new DataBaseStorage();
-
-        System.out.println("dataBaseStorage.PickUpNumbersSet (print in class LogInWindow: " + dataBaseStorage.PickUpNumbersSet);
 
         Button confirmBtn = new Button("Potwierdz");
         confirmBtn.setOnAction(event -> {

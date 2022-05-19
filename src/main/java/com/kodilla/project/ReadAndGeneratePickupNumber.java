@@ -63,12 +63,10 @@ public class ReadAndGeneratePickupNumber {
             driverAndLicencePlateMap.put(pickUpNumber, record);
         }
 
-        System.out.println("dataBaseStorage.PickUpNumbersSet (in ReadAndGeneratePickUpNumber): " + dataBaseStorage.PickUpNumbersSet);
+        //String path = "C:\\Users\\tynek\\Desktop\\Projects\\my-project\\src\\main\\resources\\";
 
-        //Scheduler executor service
-
-        String path = "C:\\Users\\tynek\\Desktop\\Projects\\my-project\\src\\main\\resources\\";
-
+        ClassLoader classLoader = getClass().getClassLoader();
+        Path path = Paths.get(classLoader.getResource("/").getPath());
         File myFile = new File(path + "Numery zaladunkow.txt");
         myFile.createNewFile();
 

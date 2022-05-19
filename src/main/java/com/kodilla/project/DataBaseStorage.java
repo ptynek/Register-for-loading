@@ -1,7 +1,7 @@
 package com.kodilla.project;
 
+
 import java.util.*;
-import java.util.logging.Logger;
 
 public class DataBaseStorage {
 
@@ -13,5 +13,5 @@ public class DataBaseStorage {
 
         public static Set<LoadingDrivers> loadingDriversSet = new HashSet<>();
 
-
+        public static Map<String, LoadInformations> resultMap = new HashMap<>();
 }

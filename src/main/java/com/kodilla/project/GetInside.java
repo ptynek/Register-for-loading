@@ -1,21 +1,17 @@
 package com.kodilla.project;
 
-import com.sun.javafx.scene.control.IntegerField;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.apache.commons.logging.Log;
 
 import java.util.Iterator;
 import java.util.Random;
-import java.util.stream.Stream;
 
 public class GetInside {
 
@@ -24,15 +20,21 @@ public class GetInside {
     private TextField tareField;
     private Integer tare;
 
+
     public void getInsideWindow (){
 
         Stage stage = new Stage();
+
 
         Label pickUpNumberLabel = new Label("Numer zaladunku: ");
         pickUpNumberTF = new TextField();
 
         Label tareLabel = new Label("Waga pustego zestawu: ");
         tareField = new TextField();
+
+
+
+
 
         GridPane gridPane = new GridPane();
         gridPane.add(pickUpNumberLabel,0,0);
@@ -57,7 +59,6 @@ public class GetInside {
             getInsideforLoading();
             stage.close();
             App.refreshTableView();
-            popUp.smallPopUp("Maksymalna mozliwa waga do zaladowania: " + countWeightToBeLoaded(tare)  + " kg");
         });
 
         vBox.setSpacing(15);
@@ -106,14 +107,6 @@ public class GetInside {
         }
     }
 
-    public Integer countWeightToBeLoaded(Integer tare){
-
-        int maxWeight = 40000;
-
-        int weightToBeLoaded = maxWeight - tare;
-
-        return weightToBeLoaded;
-    }
 
     public Integer loadingStation(LoadingDrivers loadingDrivers){
 
@@ -127,7 +120,8 @@ public class GetInside {
             if  (loadingDrivers.getGrossWeight() + loadingWeight <= 40000) {
                 loadedWeight += loadingWeight;
                 loadingDrivers.setGrossWeight(loadingDrivers.getGrossWeight() + loadingWeight);
-//                popUp.smallPopUp("Ladowanie: " + loadingDrivers.getGrossWeight());
+                //PopUp.weightList.add(loadingDrivers.getGrossWeight());
+
             } else {
                 break;
             }
@@ -142,6 +136,11 @@ public class GetInside {
             popUp.smallPopUp("Zaladunek przebiegl prawidlowo!" + "\n"
                     + "Zaladowano: " + (loadingDrivers.getGrossWeight() - loadingDrivers.getTareWeight()) + " kg" + "\n"
                     + "Waga po zaladunku: " + loadingDrivers.getGrossWeight() + " kg");
+            LoadInformations loadInformations = new LoadInformations
+                    (loadingDrivers.getLicencePlate(), loadingDrivers.getNameAndSurname(), loadingDrivers.getTareWeight(), loadingDrivers.getGrossWeight());
+            DataBaseStorage.resultMap.put
+                    (loadingDrivers.getPickUpNumber(), loadInformations);
+            System.out.println(DataBaseStorage.resultMap);
         } else {
             popUp.smallPopUp("Zaladunek wykonany nieprawidlowo!" + "\n"
                                 + "Przeladowano: " + (loadingDrivers.getGrossWeight() - 40000) + " kg");

@@ -1,7 +1,6 @@
 package com.kodilla.project;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +21,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.TableColumn;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.ScheduledFuture;
 
 public class App extends Application {
 
