@@ -64,14 +64,13 @@ public class ReadAndGeneratePickupNumber {
         }
 
         //String path = "C:\\Users\\tynek\\Desktop\\Projects\\my-project\\src\\main\\resources\\";
-
-        ClassLoader classLoader = getClass().getClassLoader();
-        Path path = Paths.get(classLoader.getResource("/").getPath());
-        File myFile = new File(path + "Numery zaladunkow.txt");
+        Path path = Path.of("src/main/resources/");
+        System.out.println(path);
+        File myFile = new File(path + "/Numery_zaladunkow.txt");
         myFile.createNewFile();
 
         try {
-            FileWriter myWriter = new FileWriter(path + "Numery zaladunkow.txt");
+            FileWriter myWriter = new FileWriter(path + "/Numery_zaladunkow.txt");
             for(Map.Entry<PickUpNumber, DriverAndLicencePlate> entry :driverAndLicencePlateMap.entrySet()){
                 myWriter.write(("Numer zaladunku: " + entry.getKey() + "\n"
                         + "Kierowca: " +  entry.getValue().getNameAndSurname() + "\n"

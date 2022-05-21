@@ -1,0 +1,20 @@
+Numer zaladunku: UWCJSK
+Kierowca: Jan Kowalski
+Pojazd:  OP2342P
+
+Numer zaladunku: QVEDZX
+Kierowca: Jakub Nowak
+Pojazd:  WX2321S
+
+Numer zaladunku: RJEDGJ
+Kierowca: Jan Kobak
+Pojazd:  CB32123
+
+Numer zaladunku: JUPSGY
+Kierowca: Kamil Kobak
+Pojazd:  RSA3212N
+
+Numer zaladunku: U3KKEZ
+Kierowca: Kamila Jaworksa
+Pojazd:  OP2312C
+

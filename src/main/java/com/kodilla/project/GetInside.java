@@ -9,9 +9,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 import java.util.Iterator;
 import java.util.Random;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class GetInside {
 
@@ -33,9 +34,6 @@ public class GetInside {
         tareField = new TextField();
 
 
-
-
-
         GridPane gridPane = new GridPane();
         gridPane.add(pickUpNumberLabel,0,0);
         gridPane.add(pickUpNumberTF,1,0);
@@ -55,10 +53,14 @@ public class GetInside {
 
         Button entryBtn = new Button("Wjedz");
         entryBtn.setOnAction(event -> {
+            if (pickUpNumberTF.getText() != "" && tareField.getText() != ""){
             tare = Integer.parseInt(tareField.getText());
             getInsideforLoading();
             stage.close();
             App.refreshTableView();
+            } else {
+                showMessageDialog(null, "Pola nie moga byc puste");
+            }
         });
 
         vBox.setSpacing(15);
