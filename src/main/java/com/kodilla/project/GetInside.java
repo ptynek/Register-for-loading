@@ -77,6 +77,7 @@ public class GetInside {
     public void getInsideforLoading() {
 
         GetInside getInside = new GetInside();
+        CreateHTML createHTML = new CreateHTML();
         try {
             DataBaseStorage.driversLoggedIn.stream()
                     .filter(record -> record.getCalledInBoolean() == true)
@@ -89,6 +90,8 @@ public class GetInside {
                             getInside.removeFromMainTable(loadingDriver);
                             getInside.loadingStation(loadingDriver);
                             getInside.checkIfLoadingIsCorrect(loadingDriver);
+                            createHTML.createHTMLFile();
+                            System.out.println(DataBaseStorage.resultMap);
                         }
                     });
         } catch (Exception e) {
@@ -139,10 +142,10 @@ public class GetInside {
                     + "Zaladowano: " + (loadingDrivers.getGrossWeight() - loadingDrivers.getTareWeight()) + " kg" + "\n"
                     + "Waga po zaladunku: " + loadingDrivers.getGrossWeight() + " kg");
             LoadInformations loadInformations = new LoadInformations
-                    (loadingDrivers.getLicencePlate(), loadingDrivers.getNameAndSurname(), loadingDrivers.getTareWeight(), loadingDrivers.getGrossWeight());
+                    (loadingDrivers.getLicencePlate(), loadingDrivers.getNameAndSurname(), loadingDrivers.getTareWeight(), loadingDrivers.getGrossWeight(), false);
             DataBaseStorage.resultMap.put
                     (loadingDrivers.getPickUpNumber(), loadInformations);
-            System.out.println(DataBaseStorage.resultMap);
+
         } else {
             popUp.smallPopUp("Zaladunek wykonany nieprawidlowo!" + "\n"
                                 + "Przeladowano: " + (loadingDrivers.getGrossWeight() - 40000) + " kg");

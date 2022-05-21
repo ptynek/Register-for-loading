@@ -7,12 +7,39 @@ public class LoadInformations {
     Integer tare;
     Integer grossWeight;
 
+    Boolean createdHMTL;
 
-    public LoadInformations(String licencePlate, String nameAndSurname, Integer tare, Integer grossWeight) {
+
+    public LoadInformations(String licencePlate, String nameAndSurname, Integer tare, Integer grossWeight, boolean createdHMTL) {
         this.licencePlate = licencePlate;
         this.nameAndSurname = nameAndSurname;
         this.tare = tare;
         this.grossWeight = grossWeight;
+        this.createdHMTL = createdHMTL;
+    }
+
+    public String getLicencePlate() {
+        return licencePlate;
+    }
+
+    public String getNameAndSurname() {
+        return nameAndSurname;
+    }
+
+    public Integer getTare() {
+        return tare;
+    }
+
+    public Integer getGrossWeight() {
+        return grossWeight;
+    }
+
+    public Boolean getCreatedHMTL() {
+        return createdHMTL;
+    }
+
+    public void setCreatedHMTL(Boolean createdHMTL) {
+        this.createdHMTL = createdHMTL;
     }
 
     @Override
@@ -44,6 +71,7 @@ public class LoadInformations {
                 ", nameAndSurname='" + nameAndSurname + '\'' +
                 ", tare=" + tare +
                 ", grossWeight=" + grossWeight +
+                ", createdHMTL=" + createdHMTL +
                 '}';
     }
 }

@@ -2,11 +2,9 @@ package com.kodilla.project;
 
 
 import com.opencsv.*;
-import javafx.stage.FileChooser;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
