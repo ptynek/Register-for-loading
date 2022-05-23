@@ -1,5 +1,6 @@
 package com.kodilla.project;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,11 +12,16 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class PopUp {
 
     public static ArrayList<Integer> weightList = new ArrayList<>();
+
+    static boolean finisedLoading = false;
 
     public void smallPopUp(String information){
         GridPane gridPane = new GridPane();
@@ -49,7 +55,7 @@ public class PopUp {
         stage.show();
     }
 
-    public void testScene() {
+    public void loadingPopUp() {
 
         Label label;
         VBox vbox;
@@ -62,24 +68,27 @@ public class PopUp {
         loadingText.setAlignment(Pos.TOP_CENTER);
 
 
-        for (int x = 0; x < weightList.size(); x++) {
-                label = new Label(weightList.get(x).toString() + "kg");
-                vbox = new VBox();
-                vbox.setAlignment(Pos.CENTER);
-                vbox.getChildren().add(label);
-                scene = new Scene(vbox, 300, 200);
-                System.out.println(weightList.get(x));
-                stage.setScene(scene);
-                stage.show();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        int x = 0;
+        label = new Label();
+        vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().add(label);
+        scene = new Scene(vbox, 300, 200);
+        stage.setScene(scene);
+        stage.show();
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Iterator<Integer> weightListIterator = weightList.iterator();
+                if (weightListIterator.hasNext()) {
+                    int nextIterate = weightListIterator.next();
+                    weightListIterator.remove();
+                    Platform.runLater(() -> label.setText(nextIterate + " kg"));
+                }
             }
-        }
-
-        //stage.setScene(scene);
-
+        }, 1000, 1000);
     }
+
+
 
 }

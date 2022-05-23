@@ -62,6 +62,7 @@ public class ReadAndGeneratePickupNumber {
         }
 
         //String path = "C:\\Users\\tynek\\Desktop\\Projects\\my-project\\src\\main\\resources\\";
+
         Path path = Path.of("src/main/resources/");
         System.out.println(path);
         File myFile = new File(path + "/Numery_zaladunkow.txt");

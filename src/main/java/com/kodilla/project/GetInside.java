@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import static javax.swing.JOptionPane.showMessageDialog;
+import static org.apache.commons.lang3.StringUtils.join;
 
 public class GetInside {
 
@@ -77,29 +78,22 @@ public class GetInside {
     public void getInsideforLoading() {
 
         GetInside getInside = new GetInside();
-        CreateHTML createHTML = new CreateHTML();
-        try {
-            DataBaseStorage.driversLoggedIn.stream()
-                    .filter(record -> record.getCalledInBoolean() == true)
-                    .forEach(record -> {
-                        if (!record.getPickUpNumber().equals(pickUpNumberTF.getText())) {
-                            popUp.smallPopUp("Bledny numer zaladunku");
-                        } else {
-                            LoadingDrivers loadingDriver = new LoadingDrivers(record.getPickUpNumber(), record.getLicencePlate(), record.getNameAndSurname(), tare, tare);
-                            DataBaseStorage.loadingDriversSet.add(loadingDriver);
-                            getInside.removeFromMainTable(loadingDriver);
-                            getInside.loadingStation(loadingDriver);
-                            getInside.checkIfLoadingIsCorrect(loadingDriver);
-                            createHTML.createHTMLFile();
-                            System.out.println(DataBaseStorage.resultMap);
-                        }
-                    });
-        } catch (Exception e) {
-            System.out.println(e);
+        Iterator<LogInByDriver> driversLoggedInIterator = DataBaseStorage.driversLoggedIn.iterator();
+
+        if (driversLoggedInIterator.hasNext()) {
+            LogInByDriver record = driversLoggedInIterator.next();
+            if (record.getCalledInBoolean() && record.getPickUpNumber().equals(pickUpNumberTF.getText())) {
+                LoadingDrivers loadingDriver = new LoadingDrivers(record.getPickUpNumber(), record.getLicencePlate(), record.getNameAndSurname(), tare, tare);
+                DataBaseStorage.loadingDriversSet.add(loadingDriver);
+                getInside.removeFromMainTable(loadingDriver);
+                getInside.loadingStation(loadingDriver);
+                popUp.loadingPopUp();
+                getInside.checkIfLoadingIsCorrect(loadingDriver);
+            } else {
+                popUp.smallPopUp("Bledny numer zaladunku!");
+            }
         }
     }
-
-
     public void removeFromMainTable(LoadingDrivers loadingDrivers){
 
         Iterator<LogInByDriver> driversLoggedInIterator = DataBaseStorage.driversLoggedIn.iterator();
@@ -112,7 +106,6 @@ public class GetInside {
         }
     }
 
-
     public Integer loadingStation(LoadingDrivers loadingDrivers){
 
         Random random = new Random();
@@ -120,12 +113,12 @@ public class GetInside {
         int loadedWeight = 0;
 
         while (loadingDrivers.getGrossWeight() <= 40000) {
-            int loadingWeight = random.nextInt(1500);
+            int loadingWeight = random.nextInt(2000);
 
             if  (loadingDrivers.getGrossWeight() + loadingWeight <= 40000) {
                 loadedWeight += loadingWeight;
                 loadingDrivers.setGrossWeight(loadingDrivers.getGrossWeight() + loadingWeight);
-                //PopUp.weightList.add(loadingDrivers.getGrossWeight());
+                PopUp.weightList.add(loadingDrivers.getGrossWeight());
 
             } else {
                 break;
@@ -136,7 +129,7 @@ public class GetInside {
     }
 
     public void checkIfLoadingIsCorrect(LoadingDrivers loadingDrivers){
-
+        CreateHTML createHTML = new CreateHTML();
         if(loadingDrivers.getGrossWeight() <= 40000){
             popUp.smallPopUp("Zaladunek przebiegl prawidlowo!" + "\n"
                     + "Zaladowano: " + (loadingDrivers.getGrossWeight() - loadingDrivers.getTareWeight()) + " kg" + "\n"
@@ -145,7 +138,7 @@ public class GetInside {
                     (loadingDrivers.getLicencePlate(), loadingDrivers.getNameAndSurname(), loadingDrivers.getTareWeight(), loadingDrivers.getGrossWeight(), false);
             DataBaseStorage.resultMap.put
                     (loadingDrivers.getPickUpNumber(), loadInformations);
-
+            createHTML.createHTMLFile();
         } else {
             popUp.smallPopUp("Zaladunek wykonany nieprawidlowo!" + "\n"
                                 + "Przeladowano: " + (loadingDrivers.getGrossWeight() - 40000) + " kg");
