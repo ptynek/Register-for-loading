@@ -33,12 +33,6 @@ public class App extends Application {
         LogInWindow logInWindow = new LogInWindow();
         GetInside getInside = new GetInside();
 
-        DataBaseStorage.PickUpNumbersSet.add("XXXXXX");
-        DataBaseStorage.PickUpNumbersSet.add("XXXXXY");
-        DataBaseStorage.PickUpNumbersSet.add("XXXXXZ");
-        DataBaseStorage.PickUpNumbersSet.add("XXXXXC");
-        DataBaseStorage.PickUpNumbersSet.add("XXXXXV");
-
         HBox topControls = new HBox();
         VBox.setMargin(topControls, new Insets(10.0d));
         topControls.setAlignment(Pos.TOP_LEFT);

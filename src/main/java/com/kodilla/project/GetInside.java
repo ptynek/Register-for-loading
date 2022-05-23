@@ -43,9 +43,6 @@ public class GetInside {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
 
-        pickUpNumberTF.setText("XXXXXX");
-        tareField.setText("12000");
-
         HBox hBox = new HBox(gridPane);
         hBox.setAlignment(Pos.CENTER);
 

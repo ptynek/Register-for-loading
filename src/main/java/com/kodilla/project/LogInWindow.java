@@ -39,8 +39,6 @@ public class LogInWindow {
         gp.add(pickUpNumberLabel, 0, 0);
         gp.add(pickUpNumberField, 1,0);
 
-        pickUpNumberField.setText("XXXXXX");
-
         gp.setHgap(10);
         gp.setVgap(10);
 
@@ -89,10 +87,6 @@ public class LogInWindow {
         phoneNumberField = new TextField();
         Label licencePlateLabel = new Label("Numer rejestracyjny pojazdu");
         licencePlateField = new TextField();
-
-        nameAndSurnameField.setText("Piotr Tynek");
-        phoneNumberField.setText("510347606");
-        licencePlateField.setText("ONA14033");
 
         gp.add(nameAndSurnameLabel, 0 , 0);
         gp.add(nameAndSurnameField, 1, 0);
